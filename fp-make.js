@@ -24,7 +24,6 @@ function hashSync(fullPath) {
  * @return {Object} filepack object
  */
 function walkFolder(dir) {
-  console.log('walking: ' + dir);
   var ret = {};
   var list = fs.readdirSync(dir);
   list.forEach(function(file) {
@@ -58,4 +57,5 @@ function walkFolder(dir) {
 var started = Date.now();
 var obj = {};
 obj.filepack = walkFolder(program.in);
-console.log(JSON.stringify(obj, null, '\t'));
+var objStr = JSON.stringify(obj, null, '\t');
+fs.writeFileSync(program.out, objStr);
