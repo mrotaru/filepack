@@ -15,7 +15,7 @@ var options = {
 
 function hashSync(fullPath) {
   var hash = createHash('md5');
-  return hash.update(fs.readFilSync(fullPath));
+  return hash.update(fs.readFileSync(fullPath)).digest('hex');
 }
 
 /*
@@ -48,7 +48,7 @@ function walkFolder(dir) {
         if(!ret.hasOwnProperty('files')) {
           ret.files = [];
         }
-        ret.files.push({name: file});
+        ret.files.push({name: file, md5: hashSync(fullPath)});
       }
     }
   });
