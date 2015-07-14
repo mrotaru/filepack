@@ -1,7 +1,6 @@
 var program = require('commander');
 var fs = require('fs');
 var path = require('path');
-var filewalker = require('filewalker');
 var createHash = require('crypto').createHash;
 
 program
@@ -9,11 +8,10 @@ program
   .option('-i, --in <folder>', 'Input folder', '.')
   .parse(process.argv);
 
-var options = {
-  maxPending: 10, // throttle handles
-};
-
-function hashSync(fullPath) {
+/*
+ * @return {String} md5 hash of file
+ */
+function md5HashSync(fullPath) {
   var hash = createHash('md5');
   return hash.update(fs.readFileSync(fullPath)).digest('hex');
 }
@@ -47,7 +45,7 @@ function walkFolder(dir) {
         if(!ret.hasOwnProperty('files')) {
           ret.files = [];
         }
-        ret.files.push({name: file, md5: hashSync(fullPath)});
+        ret.files.push({name: file, md5: md5HashSync(fullPath)});
       }
     }
   });
